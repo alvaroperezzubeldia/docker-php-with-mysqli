@@ -1,13 +1,16 @@
 version: '3.3'
 services:
     php-apache:
-        image: zubeldia/php-with-mysqli:7.1
+        image: zubeldia/php-with-mysqli:5.2
         ports:
             - 80:80
         networks:
             - overlay
         volumes:
-            - ./html:/var/www/html
+            - ./html:/var/www/app/web
+        environment:
+          DOCUMENT_ROOT: /var/www/app/web
+          ENVIRONMENT: dev
         depends_on:
             - mariadb
     mariadb:
