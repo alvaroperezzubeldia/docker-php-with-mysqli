@@ -1,7 +1,7 @@
 version: '3.3'
 services:
     php-apache:
-        image: zubeldia/php-with-mysqli:7.1
+        image: zubeldia/php-with-mysqli:5.6
         ports:
             - 80:80
         networks:
