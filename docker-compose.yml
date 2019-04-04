@@ -1,0 +1,45 @@
+version: '3.3'
+services:
+    php-apache:
+        image: zubeldia/php-with-mysqli:7.1
+        ports:
+            - 80:80
+        networks:
+            - overlay
+        volumes:
+            - ./html:/var/www/html
+        depends_on:
+            - mariadb
+    mariadb:
+        image: mariadb:latest
+        volumes:
+            - mariadb:/var/lib/mysql
+        ports:
+            - 3306:3306
+        networks:
+            - overlay
+        environment:
+            TZ: "Europe/Madrid"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "admin"
+            MYSQL_USER: 'admin'
+            MYSQL_PASSWORD: 'admin'
+            MYSQL_DATABASE: 'mydb'
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        depends_on:
+            - mariadb
+        ports:
+            - 8181:80
+        networks:
+            - overlay
+        environment:
+            PMA_HOST: mariadb
+            MYSQL_USER: 'admin'
+            MYSQL_PASSWORD: 'admin'
+            MYSQL_ROOT_PASSWORD: 'admin'
+networks:
+  overlay:
+    driver: bridge
+volumes:
+    mariadb:
